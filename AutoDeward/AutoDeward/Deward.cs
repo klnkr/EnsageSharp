@@ -20,19 +20,19 @@ namespace AutoDeward
 
         public static void Init()
         {
-            Game.OnUpdate += GameOnOnUpdate;
+            Game.OnUpdate += GameOnUpdate;
         }
 
-        private static void GameOnOnUpdate(EventArgs eventArgs)
+        private static void GameOnUpdate(EventArgs eventArgs)
         {
-            if (!Game.IsInGame) return;
+            var me = ObjectMgr.LocalHero;
+
+            if (!Game.IsInGame || me == null) return;
             if (sleepTime > 0)
             {
                 sleepTime--;
                 return;
             }
-
-            var me = ObjectMgr.LocalHero;
 
             enemyTeam = me.Team == Team.Dire ? Team.Radiant : Team.Dire;
 
