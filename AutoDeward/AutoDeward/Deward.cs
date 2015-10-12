@@ -44,7 +44,7 @@ namespace AutoDeward
             var canDeward = (quellingBlade != null || tango != null);
 
             var wards = ObjectMgr.GetEntities<Unit>()
-                .Where(u => (u.ClassID == ClassID.CDOTA_NPC_Observer_Ward || u.ClassID == ClassID.CDOTA_Item_SentryWard) && u.Team == enemyTeam && u.IsAlive && Vector3.Distance(me.Position, u.Position) < 475).ToList();
+                .Where(u => (u.ClassID == ClassID.CDOTA_NPC_Observer_Ward || u.ClassID == ClassID.CDOTA_NPC_Observer_Ward_TrueSight) && u.Team == enemyTeam && u.IsAlive && Vector3.Distance(me.Position, u.Position) < 475).ToList();
 
             if (canDeward)
             {
