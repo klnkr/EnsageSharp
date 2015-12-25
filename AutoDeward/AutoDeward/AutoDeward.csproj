@@ -52,7 +52,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ensage">
-      <HintPath>C:\Users\Nova\Downloads\LeagueSharp\System\Ensage.dll</HintPath>
+      <HintPath>..\..\..\..\..\Downloads\PlaySharp\System\Ensage.dll</HintPath>
+    </Reference>
+    <Reference Include="Ensage.Common">
+      <HintPath>..\..\..\..\..\Downloads\PlaySharp\System\Ensage.Common.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

@@ -46,12 +46,11 @@ namespace AutoDeward {
             var canDewardWard = ((quellingBlade != null || tango != null) && wards.Count > 0);
             var canDewardMine = ((quellingBlade != null) && mines.Count > 0);
 
-            if (canDewardWard) {
+            if (canDewardWard && me.IsAlive) {
                 Item dewardItem = quellingBlade;
 
                 // is using a tango worth it?
                 // tango heals 230 if used on ward, 115 if used on tree
-                // TODO: check if already under tango effect
                 if (tango != null && quellingBlade != null && me.Modifiers.All(m => m.Name != "modifier_tango_heal")) {
                     var hpMissing = me.MaximumHealth - me.Health;
                     if (hpMissing > 115) dewardItem = tango;
@@ -61,7 +60,6 @@ namespace AutoDeward {
 
                 if (dewardItem.Cooldown == 0) {
                     dewardItem.UseAbility(wards[0]);
-                    Console.WriteLine("Dewarded a ward with: " + dewardItem.Name);
                     sleepTime = 10;
                 }
             }
@@ -69,7 +67,6 @@ namespace AutoDeward {
             if (canDewardMine) {
                 if (quellingBlade.Cooldown == 0) {
                     quellingBlade.UseAbility(mines[0]);
-                    Console.WriteLine("Demined a mine");
                     sleepTime = 10;
                 }
             }
