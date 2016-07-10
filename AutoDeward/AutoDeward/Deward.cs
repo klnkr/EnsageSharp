@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ensage;
+using Ensage.Common.Extensions;
 using Ensage.Common.Menu;
 using Ensage.Common.Menu.MenuItems;
 using SharpDX;
@@ -76,8 +77,8 @@ namespace AutoDeward {
 
             var mines = units.Where(u => u.ClassID == ClassID.CDOTA_NPC_TechiesMines && u.Team != me.Team && u.IsAlive && Vector3.Distance(me.NetworkPosition, u.NetworkPosition) < 475).ToList();
 
-            var canDewardWard = ((quellingBlade != null || tango != null) && wards.Count > 0);
-            var canDewardMine = ((quellingBlade != null) && mines.Count > 0);
+            var canDewardWard = ((quellingBlade != null || tango != null) && wards.Count > 0 && !me.IsChanneling());
+            var canDewardMine = ((quellingBlade != null) && mines.Count > 0 && !me.IsChanneling());
 
             if (canDewardWard && me.IsAlive) {
                 var dewardItem = quellingBlade;
