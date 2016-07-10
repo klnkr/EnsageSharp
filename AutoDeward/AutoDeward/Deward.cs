@@ -20,7 +20,7 @@ namespace AutoDeward {
         }
 
         private static void GameOnUpdate(EventArgs eventArgs) {
-            var me = ObjectMgr.LocalHero;
+            var me = ObjectManager.LocalHero;
 
             if (!Game.IsInGame || me == null) return;
             if (sleepTime > 0) {
@@ -35,7 +35,7 @@ namespace AutoDeward {
                 me.Inventory.Items.FirstOrDefault(
                     i => i.ClassID == ClassID.CDOTA_Item_Tango || i.ClassID == ClassID.CDOTA_Item_Tango_Single);
 
-            var units = ObjectMgr.GetEntities<Unit>();
+            var units = ObjectManager.GetEntities<Unit>();
 
             var wards = units
                 .Where(
@@ -47,29 +47,30 @@ namespace AutoDeward {
             var canDewardMine = ((quellingBlade != null) && mines.Count > 0);
 
             if (canDewardWard && me.IsAlive) {
-                Item dewardItem = quellingBlade;
+                var dewardItem = quellingBlade;
 
                 // is using a tango worth it?
                 // tango heals 230 if used on ward, 115 if used on tree
                 if (tango != null && quellingBlade != null && me.Modifiers.All(m => m.Name != "modifier_tango_heal")) {
                     var hpMissing = me.MaximumHealth - me.Health;
-                    if (hpMissing > 115) dewardItem = tango;
+                    if (hpMissing > 115 || quellingBlade.Cooldown > 0) dewardItem = tango;
                 }
+                else if (quellingBlade != null && quellingBlade.Cooldown > 0) dewardItem = tango;
                 else if (quellingBlade == null) dewardItem = tango;
 
 
                 if (dewardItem.Cooldown == 0) {
                     dewardItem.UseAbility(wards[0]);
-                    sleepTime = 10;
                 }
             }
 
-            if (canDewardMine) {
+            if (canDewardMine && me.IsAlive) {
                 if (quellingBlade.Cooldown == 0) {
                     quellingBlade.UseAbility(mines[0]);
-                    sleepTime = 10;
                 }
             }
+
+            sleepTime = 10;
         }
     }
 }
